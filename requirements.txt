@@ -1,0 +1,2 @@
+edge_tts
+gradio>=5.43.1
