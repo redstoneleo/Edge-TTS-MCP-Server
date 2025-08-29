@@ -5,7 +5,7 @@ import aiohttp
 import asyncio
 import tempfile, time
 from typing import TypedDict, List, Dict
-
+from pathlib import Path
 
 
 
@@ -134,7 +134,8 @@ async def text_to_speech(text: str, voice: str, rate: int = 0, pitch: int = 0) -
         tmp_path = tmp_file.name
         await communicate.save(tmp_path)
 
-    return tmp_path#后面output到gr.Audio上，通过程序交互的时候gradio会将其转化为url，很神奇！
+    path = Path(tmp_path)
+    return path.as_posix()#后面output到gr.Audio上，通过程序交互的时候gradio会将其转化为url，很神奇！
 
 
 i18n = gr.I18n(
@@ -165,7 +166,7 @@ async def create_UI():
         gr.api(#默认只在fn处暴露工具，这里主动暴露这个tool
             list_voices
         )
-   
+
         gr.Markdown(i18n("pageTitle"))
         
         with gr.Row():
